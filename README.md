@@ -65,7 +65,9 @@ cd kAFL/kafl/examples/templates/windows
 make build
 make import
 cd ../../windows_x86_64
-make setup
+make init # error expected
+sed -i 's/# @@@ \(libvirt\.storage_pool_name = "kafl_pool"\)/\1/' Vagrantfile
+make repair
 make init
 ```
 
