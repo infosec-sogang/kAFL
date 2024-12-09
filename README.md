@@ -34,6 +34,8 @@ operating systems.
 
 # Installation Guide
 
+------
+
 Run all commands as the root user.
 
 
@@ -57,6 +59,7 @@ reboot
 
 ```bash
 cd kAFL
+make env
 make deploy -- --tags examples,examples-template-windows
 cd kAFL/kafl/examples/templates/windows
 make build
@@ -76,5 +79,33 @@ make provision_driver
 
 ```bash
 kafl fuzz
+```
+
+
+
+
+
+# Clean up
+
+------
+
+```bash
+# 1. Destroy the running domain
+virsh destroy windows_x86_64_vagrant-kafl-windows
+
+# 2. Delete all snapshots for the domain
+virsh snapshot-list --name windows_x86_64_vagrant-kafl-windows | xargs -I {} virsh snapshot-delete windows_x86_64_vagrant-kafl-windows --snapshotname {}
+
+# 3. Undefine the domain
+virsh undefine windows_x86_64_vagrant-kafl-windows
+
+# 4. Destroy the storage pool
+virsh pool-destroy kafl_pool
+
+# 5. Undefine the storage pool
+virsh pool-undefine kafl_pool
+
+# 6. Delete storage images
+rm -rf /var/lib/libvirt/images/*
 ```
 
