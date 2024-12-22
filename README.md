@@ -80,7 +80,7 @@ make provision_driver
 ## 4. Run Fuzz
 
 ```bash
-kafl fuzz
+kafl fuzz --seed-dir seed --type-info-path path --purge
 ```
 
 
